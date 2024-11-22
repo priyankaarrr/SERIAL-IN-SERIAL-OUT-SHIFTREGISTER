@@ -31,21 +31,23 @@ Each D flip-flop in the circuit has a Data (D) input, a Clock (CLK) input, and a
 
 **PROGRAM**
 ```
-module ex10(clk, sin, q);
-input clk;
-input sin;
-output [3:0] q;
-reg [3:0] q;
-always @(posedge clk)
+1. SERIAL IN SERIAL OUT SHIFT REGISTER
+module SISOSR(clock, clear, A, E);
+input clock, clear, A;
+output reg E;
+reg B, C, D;
+always @(posedge clock or negedge clear)
 begin
-q[0] <= sin;
-q[1] <= q[0];
-q[2] <= q[1];
-q[3] <= q[2];
+if (!clear) begin B=0; C=0; D=0; E=0; end
+else begin
+E = D;
+D = C;
+C = B;
+B = A;
+end
 end
 endmodule
 ```
-
 **RTL LOGIC FOR SISO Shift Register**
 ![DE SISO RTL](https://github.com/user-attachments/assets/0ec1679e-7005-4c8d-9a4e-b2321f0219bf)
 
